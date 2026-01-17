@@ -1,11 +1,9 @@
-<!DOCTYPE html> <form action="https://formspree.io/f/abcd1234" method="POST">
-<form action="https://formspree.io/f/abcd1234" method="POST">
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sanestory - Peer Writing Community</title>
+  <title>Sanestory - Writing Community</title>
   <style>
     :root {
       --bg-primary: #f5f3f0;
@@ -14,123 +12,64 @@
       --accent: #5c3a21;
       --accent-light: #8c6d5f;
       --border: #ddd;
-      --shadow: rgba(0,0,0,0.1);
     }
     
-    [data-theme="dark"] {
-      --bg-primary: #1a1a1a;
-      --bg-secondary: #2d2d2d;
-      --text-primary: #e0e0e0;
-      --accent: #d4a574;
-      --accent-light: #e6c299;
-      --border: #444;
-      --shadow: rgba(0,0,0,0.3);
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
-      transition: all 0.3s ease;
     }
-
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 20px;
     }
-
     header {
       background: var(--accent);
       color: white;
       padding: 20px 0;
-      box-shadow: 0 4px 6px var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
-
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 20px;
     }
-
-    .logo {
-      font-size: 1.8em;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
+    .logo { font-size: 2em; font-weight: bold; }
     .nav-links button {
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-      font-size: 1em;
-      transition: opacity 0.3s;
-    }
-
-    .nav-links button:hover {
-      opacity: 0.8;
-    }
-
-    .theme-toggle {
       background: var(--accent-light);
-      border: none;
       color: white;
+      border: none;
       padding: 8px 15px;
-      border-radius: 20px;
+      margin-left: 5px;
+      border-radius: 4px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: background 0.3s;
     }
-
-    .theme-toggle:hover {
-      transform: scale(1.05);
-    }
-
+    .nav-links button:hover { background: var(--accent); }
     main {
       background: var(--bg-secondary);
       margin: 30px 0;
       padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 2px 10px var(--shadow);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
-
     h2 {
       color: var(--accent);
       margin-bottom: 20px;
       padding-bottom: 10px;
       border-bottom: 2px solid var(--accent-light);
     }
-
-    .section {
-      display: none;
-    }
-
-    .section.active {
-      display: block;
-    }
-
     form {
       background: var(--bg-primary);
       padding: 25px;
       border-radius: 6px;
-      border: 1px solid var(--border);
     }
-
     input, textarea, select {
       width: 100%;
       padding: 12px;
@@ -138,11 +77,8 @@
       border: 1px solid var(--border);
       border-radius: 4px;
       font-size: 16px;
-      background: var(--bg-secondary);
-      color: var(--text-primary);
     }
-
-    button {
+    button[type="submit"] {
       background: var(--accent);
       color: white;
       padding: 12px 30px;
@@ -150,83 +86,36 @@
       border-radius: 4px;
       font-size: 16px;
       cursor: pointer;
-      transition: background 0.3s;
     }
-
-    button:hover {
-      background: var(--accent-light);
+    button[type="submit"]:hover { background: var(--accent-light); }
+    .section {
+      display: none;
     }
-
+    .section.active {
+      display: block;
+    }
     .story-card {
       background: var(--bg-primary);
       border-left: 5px solid var(--accent-light);
       padding: 20px;
       margin: 20px 0;
       border-radius: 4px;
-      transition: transform 0.2s;
     }
-
-    .story-card:hover {
-      transform: translateX(5px);
-    }
-
-    .story-card h3 {
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-
-    .story-meta {
-      font-size: 0.9em;
-      color: var(--accent-light);
-      margin-bottom: 15px;
-    }
-
-    .rules {
-      background: var(--bg-primary);
-      border-left: 4px solid #ffa500;
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 4px;
-    }
-
-    .profile-info {
-      background: var(--bg-primary);
-      padding: 20px;
-      border-radius: 8px;
-      margin: 20px 0;
-    }
-
+    .story-card h3 { color: var(--accent); margin-bottom: 10px; }
+    .story-meta { font-size: 0.9em; color: var(--accent-light); margin-bottom: 15px; }
     .auth-form {
       max-width: 400px;
       margin: 30px auto;
+      background: var(--bg-secondary);
+      padding: 25px;
+      border-radius: 8px;
     }
-
-    .error {
-      color: #ff4444;
-      margin: 10px 0;
-    }
-
-    .success {
-      color: #44ff44;
-      margin: 10px 0;
-    }
-
+    .error { color: #ff4444; margin-top: 10px; }
+    .success { color: #44ff44; margin-top: 10px; }
     footer {
       text-align: center;
       padding: 30px;
       color: var(--accent-light);
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      nav {
-        flex-direction: column;
-        gap: 15px;
-      }
     }
   </style>
 </head>
@@ -239,225 +128,225 @@
         <button onclick="showSection('submit')">Submit</button>
         <button onclick="showSection('browse')">Browse</button>
         <button onclick="showSection('profile')">Profile</button>
-        <button onclick="showSection('login')" id="loginBtn">Login</button>
-        <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+        <button onclick="showSection('register')" id="authBtn">Sign Up</button>
       </div>
     </nav>
   </header>
 
   <div class="container">
-    <!-- HOME SECTION -->
+    <!-- === HOME SECTION === -->
     <section id="home" class="section active">
       <h2>Welcome to Sanestory</h2>
-      <p>A supportive peer community where writers share stories and give constructive feedback. No AI, just humans helping humans improve.</p>
+      <p>A peer-driven writing community where writers share stories and give constructive feedback. No email required—just create a username and password.</p>
       
-      <div class="rules">
-        <h3>How It Works</h3>
+      <div style="background: #fff9e6; padding: 20px; border-left: 4px solid #ffa500; margin: 20px 0;">
+        <h3>How It Works:</h3>
         <ul>
-          <li><strong>Submit</strong> your original story (100+ words recommended)</li>
-          <li><strong>Give feedback</strong> on 2 stories for every 1 you submit</li>
-          <li><strong>Be specific:</strong> Quote lines that worked or need improvement</li>
-          <li><strong>Be kind:</strong> Critique the writing, not the writer</li>
+          <li>✍️ Submit your original story</li>
+          <li>💬 Give feedback on 2 stories for every 1 you submit</li>
+          <li>🤝 Be specific and kind in your critiques</li>
         </ul>
       </div>
     </section>
 
-    <!-- SUBMIT SECTION -->
+    <!-- === SUBMIT STORY SECTION === -->
     <section id="submit" class="section">
       <h2>Submit Your Story</h2>
-      <form action="https://formspree.io/f/REPLACE_WITH_YOUR_CODE" method="POST" onsubmit="return checkLogin()">
+      <form action="https://formspree.io/f/YOUR_FORM_CODE_HERE" method="POST" onsubmit="return handleSubmit(event)">
         <input type="text" name="title" placeholder="Story Title" required>
         <select name="genre" required>
           <option value="">Select Genre</option>
           <option value="fiction">Fiction</option>
-          <option value="poetry">Poetry</option>
           <option value="mystery">Mystery</option>
           <option value="romance">Romance</option>
           <option value="scifi">Sci-Fi</option>
           <option value="horror">Horror</option>
+          <option value="poetry">Poetry</option>
         </select>
         <textarea name="story" placeholder="Your story (100+ words recommended)" rows="10" required></textarea>
-        <input type="hidden" name="username" id="formUsername">
+        <input type="hidden" name="username" id="submitUsername">
         <button type="submit">Submit for Feedback</button>
-        <p id="submitError" class="error"></p>
+        <p id="submitMessage" class="error"></p>
       </form>
     </section>
 
-    <!-- BROWSE SECTION -->
+    <!-- === BROWSE STORIES SECTION === -->
     <section id="browse" class="section">
       <h2>Browse Community Stories</h2>
       
       <div class="story-card">
         <h3>The Clockmaker's Secret</h3>
-        <div class="story-meta">Genre: Mystery | By: Sarah M. | 3 feedback comments | ⭐⭐⭐⭐☆</div>
-        <p>The ticking echoed through the dusty shop, each second a reminder of time's relentless march. Old Man Hemlock hadn't wound the clocks in years, yet they all ran perfectly—synced to a heartbeat that wasn't human...</p>
+        <div class="story-meta">Genre: Mystery | By: Sarah M. | 3 feedback comments</div>
+        <p>The ticking echoed through the dusty shop. Old Man Hemlock hadn't wound the clocks in years, yet they all ran perfectly—synced to a heartbeat that wasn't human. Inside the grandfather clock, I found a photograph of a woman who looked exactly like me, dated 1923.</p>
+      </div>
+
+      <div class="story-card">
+        <h3>The Borrower</h3>
+        <div class="story-meta">Genre: Fiction | By: Alex T. | 1 feedback comment</div>
+        <p>Elias kept the things people left behind. The silk scarf from March 12th still smelled of perfume. The leather wallet held a ticket stub to a play that closed years ago. When he found the red bicycle, its basket held a note: "If you're reading this, you need it more than I do."</p>
       </div>
 
       <div class="story-card">
         <h3>Submit Your Story to See It Here!</h3>
-        <p>Your story will appear in this gallery once you submit it. Be the first to share and help build our community.</p>
+        <p>Your story will appear in this gallery once you submit it. Help build our community.</p>
       </div>
     </section>
 
-    <!-- PROFILE SECTION -->
+    <!-- === PROFILE SECTION === -->
     <section id="profile" class="section">
       <h2>Your Profile</h2>
-      <div class="profile-info" id="profileInfo">
-        <p>You are not logged in. Please <button onclick="showSection('login')">login</button> or <button onclick="showSection('register')">register</button> to see your profile.</p>
+      <div id="profileContent">
+        <p>You are not logged in. Please <a href="#" onclick="showSection('register'); return false;">create an account</a> to track your stories.</p>
       </div>
     </section>
 
-    <!-- LOGIN SECTION -->
+    <!-- === REGISTER/LOGIN SECTION === -->
+    <section id="register" class="section">
+      <h2>Create Account</h2>
+      <form class="auth-form" onsubmit="handleRegister(event)">
+        <input type="text" id="regUser" placeholder="Choose Username" required>
+        <input type="password" id="regPass" placeholder="Choose Password" required>
+        <input type="password" id="regPassConfirm" placeholder="Confirm Password" required>
+        <button type="submit">Sign Up</button>
+        <p id="regMessage" class="error"></p>
+      </form>
+      <p style="text-align: center;">Already have an account? <a href="#" onclick="showSection('login'); return false;">Login</a></p>
+    </section>
+
     <section id="login" class="section">
       <h2>Login</h2>
       <form class="auth-form" onsubmit="handleLogin(event)">
-        <input type="text" id="loginUsername" placeholder="Username" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
+        <input type="text" id="loginUser" placeholder="Username" required>
+        <input type="password" id="loginPass" placeholder="Password" required>
         <button type="submit">Login</button>
-        <p id="loginError" class="error"></p>
+        <p id="loginMessage" class="error"></p>
       </form>
-    </section>
-
-    <!-- REGISTER SECTION -->
-    <section id="register" class="section">
-      <h2>Register</h2>
-      <form class="auth-form" onsubmit="handleRegister(event)">
-        <input type="text" id="regUsername" placeholder="Choose Username" required>
-        <input type="password" id="regPassword" placeholder="Choose Password" required>
-        <input type="password" id="regPasswordConfirm" placeholder="Confirm Password" required>
-        <button type="submit">Create Account</button>
-        <p id="registerError" class="error"></p>
-        <p id="registerSuccess" class="success"></p>
-      </form>
+      <p style="text-align: center;">New here? <a href="#" onclick="showSection('register'); return false;">Sign up</a></p>
     </section>
 
     <footer>
-      <p>Built with ❤️ for writers | Sanestory © 2025</p>
+      <p>Built for writers, by writers | Sanestory © 2025</p>
     </footer>
   </div>
 
   <script>
-    // THEME MANAGEMENT
-    function initTheme() {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-
-    function toggleTheme() {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-    }
-
-    // SECTION NAVIGATION
+    // NAVIGATION FUNCTION
     function showSection(sectionName) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(section => section.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(sectionName).classList.add('active');
     }
 
-    // PROFILE & AUTH SYSTEM
-    function checkLogin() {
+    // SUBMIT FORM HANDLER
+    function handleSubmit(event) {
       const user = localStorage.getItem('loggedInUser');
       if (!user) {
-        document.getElementById('submitError').textContent = 'Please login to submit stories.';
-        showSection('login');
+        document.getElementById('submitMessage').textContent = 'Please create an account first!';
+        showSection('register');
+        event.preventDefault();
         return false;
       }
-      document.getElementById('formUsername').value = user;
-      return true;
+      document.getElementById('submitUsername').value = user;
+      return true; // Allow form to submit to Formspree
     }
 
-    function handleLogin(event) {
-      event.preventDefault();
-      const username = document.getElementById('loginUsername').value;
-      const password = document.getElementById('loginPassword').value;
-      const storedUser = localStorage.getItem('user_' + username);
-      
-      if (!storedUser) {
-        document.getElementById('loginError').textContent = 'Username not found.';
-        return;
-      }
-      
-      const userData = JSON.parse(storedUser);
-      if (userData.password !== password) {
-        document.getElementById('loginError').textContent = 'Incorrect password.';
-        return;
-      }
-      
-      localStorage.setItem('loggedInUser', username);
-      updateProfile();
-      showSection('home');
-      document.getElementById('loginBtn').textContent = 'Logout';
-    }
-
-    function handleLogout() {
-      localStorage.removeItem('loggedInUser');
-      document.getElementById('loginBtn').textContent = 'Login';
-      showSection('home');
-    }
-
+    // REGISTRATION
     function handleRegister(event) {
       event.preventDefault();
-      const username = document.getElementById('regUsername').value;
-      const password = document.getElementById('regPassword').value;
-      const confirm = document.getElementById('regPasswordConfirm').value;
+      const user = document.getElementById('regUser').value;
+      const pass = document.getElementById('regPass').value;
+      const confirm = document.getElementById('regPassConfirm').value;
       
-      if (password !== confirm) {
-        document.getElementById('registerError').textContent = 'Passwords do not match.';
+      if (pass !== confirm) {
+        document.getElementById('regMessage').textContent = 'Passwords do not match!';
         return;
       }
       
-      if (localStorage.getItem('user_' + username)) {
-        document.getElementById('registerError').textContent = 'Username already exists.';
+      if (localStorage.getItem('user_' + user)) {
+        document.getElementById('regMessage').textContent = 'Username already exists!';
         return;
       }
       
-      const userData = { password: password, joined: new Date().toISOString() };
-      localStorage.setItem('user_' + username, JSON.stringify(userData));
+      localStorage.setItem('user_' + user, JSON.stringify({ password: pass, joined: new Date().toLocaleDateString() }));
+      localStorage.setItem('loggedInUser', user);
       
-      document.getElementById('registerError').textContent = '';
-      document.getElementById('registerSuccess').textContent = 'Registration successful! You can now login.';
-      
-      setTimeout(() => {
-        showSection('login');
-        document.getElementById('registerSuccess').textContent = '';
-      }, 2000);
+      alert('Account created successfully! You are now logged in.');
+      updateProfile();
+      showSection('home');
+      document.getElementById('authBtn').textContent = 'Logout';
     }
 
+    // LOGIN
+    function handleLogin(event) {
+      event.preventDefault();
+      const user = document.getElementById('loginUser').value;
+      const pass = document.getElementById('loginPass').value;
+      const stored = localStorage.getItem('user_' + user);
+      
+      if (!stored) {
+        document.getElementById('loginMessage').textContent = 'Username not found!';
+        return;
+      }
+      
+      const data = JSON.parse(stored);
+      if (data.password !== pass) {
+        document.getElementById('loginMessage').textContent = 'Wrong password!';
+        return;
+      }
+      
+      localStorage.setItem('loggedInUser', user);
+      alert('Welcome back, ' + user + '!');
+      updateProfile();
+      showSection('home');
+      document.getElementById('authBtn').textContent = 'Logout';
+    }
+
+    // LOGOUT
+    function handleLogout() {
+      localStorage.removeItem('loggedInUser');
+      document.getElementById('authBtn').textContent = 'Sign Up';
+      showSection('home');
+      updateProfile();
+    }
+
+    // UPDATE PROFILE DISPLAY
     function updateProfile() {
       const user = localStorage.getItem('loggedInUser');
-      const profileInfo = document.getElementById('profileInfo');
+      const content = document.getElementById('profileContent');
       
       if (user) {
-        const userData = JSON.parse(localStorage.getItem('user_' + user) || '{}');
-        profileInfo.innerHTML = `
-          <h3>Welcome, ${user}!</h3>
-          <p><strong>Member since:</strong> ${new Date(userData.joined).toLocaleDateString()}</p>
+        const data = JSON.parse(localStorage.getItem('user_' + user) || '{}');
+        content.innerHTML = `
+          <h3>Hello, ${user}!</h3>
+          <p><strong>Member since:</strong> ${data.joined || 'Today'}</p>
           <p><strong>Stories submitted:</strong> 0 (coming soon)</p>
           <p><strong>Feedback given:</strong> 0 (coming soon)</p>
           <button onclick="handleLogout()">Logout</button>
         `;
       } else {
-        profileInfo.innerHTML = `
-          <p>You are not logged in. Please <button onclick="showSection('login')">login</button> or <button onclick="showSection('register')">register</button> to see your profile.</p>
-        `;
+        content.innerHTML = `<p>You are not logged in. <a href="#" onclick="showSection('register'); return false;">Create an account</a> to track your activity.</p>`;
       }
     }
 
+    // THEME TOGGLE (Bonus Feature)
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('sanestory-theme') || 'light';
+      document.documentElement.style.setProperty('--bg-primary', savedTheme === 'dark' ? '#1a1a1a' : '#f5f3f0');
+    });
+
+    function toggleTheme() {
+      const current = document.documentElement.style.getPropertyValue('--bg-primary');
+      const newTheme = current === '#f5f3f0' ? 'dark' : 'light';
+      localStorage.setItem('sanestory-theme', newTheme);
+      location.reload(); // Simple reload for theme change
+    }
+
     // Initialize
-    initTheme();
     updateProfile();
-    
-    document.getElementById('loginBtn').onclick = function() {
-      if (this.textContent === 'Logout') {
-        handleLogout();
-      } else {
-        showSection('login');
-      }
+    document.getElementById('authBtn').onclick = function() {
+      this.textContent === 'Logout' ? handleLogout() : showSection('register');
     };
   </script>
 </body>
 </html>
 
+      
