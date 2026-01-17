@@ -1,30 +1,169 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>StoryForge</title>
+  <title>Sanestory - Peer Writing Community</title>
   <style>
-    body { font-family: Georgia; background: #f5f3f0; color: #2c1810; max-width: 800px; margin: 40px auto; padding: 20px; }
-    h1 { color: #5c3a21; border-bottom: 2px solid #8c6d5f; }
-    .story-card { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #8c6d5f; }
-    button { background: #5c3a21; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f3f0 0%, #e8e2dd 100%);
+      color: #2c1810;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background: #5c3a21;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 2.5em;
+      letter-spacing: 1px;
+    }
+    .tagline {
+      font-size: 1.2em;
+      opacity: 0.9;
+      margin-top: 10px;
+    }
+    main {
+      background: white;
+      margin: 30px 0;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #5c3a21;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #8c6d5f;
+    }
+    form {
+      background: #fafafa;
+      padding: 25px;
+      border-radius: 6px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      background: #5c3a21;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #8c6d5f;
+    }
+    .story-card {
+      background: #fff;
+      border-left: 5px solid #8c6d5f;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .story-card h3 {
+      color: #5c3a21;
+      margin-bottom: 10px;
+    }
+    .story-meta {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 15px;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+    }
+    .rules {
+      background: #fff9e6;
+      border-left: 4px solid #ffa500;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .rules h3 {
+      color: #5c3a21;
+      margin-bottom: 15px;
+    }
+    .rules ul {
+      list-style-position: inside;
+    }
   </style>
 </head>
 <body>
-  <h1>StoryForge</h1>
-  <p><strong>Write. Share. Grow Together.</strong></p>
-  
-  <h2>Submit Story</h2>
-  <form>
-    <input type="text" placeholder="Title" style="width: 100%; padding: 10px; margin: 10px 0;"><br>
-    <textarea placeholder="Your story" rows="10" style="width: 100%; padding: 10px;"></textarea><br>
-    <button>Submit for Feedback</button>
-  </form>
+  <header>
+    <h1>Sanestory</h1>
+    <p class="tagline">Peer Writing Community - Constructive Feedback for Writers</p>
+  </header>
 
-  <h2>Browse Stories</h2>
-  <div class="story-card">
-    <h3>Sample Story</h3>
-    <p>This is where community stories will appear...</p>
+  <div class="container">
+    <main>
+      <section>
+        <h2>Submit Your Story</h2>
+        <form action="https://formspree.io/f/REPLACE_WITH_YOUR_CODE" method="POST">
+          <input type="text" name="title" placeholder="Story Title" required>
+          <select name="genre" required>
+            <option value="">Select Genre</option>
+            <option value="fiction">Fiction</option>
+            <option value="poetry">Poetry</option>
+            <option value="mystery">Mystery</option>
+            <option value="romance">Romance</option>
+            <option value="scifi">Sci-Fi</option>
+            <option value="horror">Horror</option>
+          </select>
+          <textarea name="story" placeholder="Your story (minimum 100 words)" rows="10" required></textarea>
+          <input type="email" name="email" placeholder="Your email (for notifications)" required>
+          <button type="submit">Submit for Community Feedback</button>
+        </form>
+      </section>
+
+      <section class="rules">
+        <h3>Community Guidelines</h3>
+        <ul>
+          <li><strong>Be Specific:</strong> Quote lines that worked or confused you</li>
+          <li><strong>Be Kind:</strong> Critique the writing, not the writer</li>
+          <li><strong>Give More Than You Take:</strong> Comment on 2 stories for every 1 you submit</li>
+          <li><strong>Minimum 100 Words:</strong> Ensure your story is substantial enough for feedback</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Browse Community Stories</h2>
+        <div class="story-card">
+          <h3>The Clockmaker's Secret</h3>
+          <div class="story-meta">Genre: Mystery | By: Sarah M. | 3 feedback comments | ⭐⭐⭐⭐☆</div>
+          <p>The ticking echoed through the dusty shop, each second a reminder of time's relentless march. Old Man Hemlock hadn't wound the clocks in years, yet they all ran perfectly—synced to a heartbeat that wasn't human...</p>
+          <button>Read Full Story & Give Feedback</button>
+        </div>
+
+        <div class="story-card">
+          <h3>Submit Your Story to See It Here!</h3>
+          <p>Your story will appear in this gallery once you submit it. Build our community by being the first to share.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Built with ❤️ for writers | Sanestory © 2025</p>
+    </footer>
   </div>
 </body>
 </html>
