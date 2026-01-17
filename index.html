@@ -39,7 +39,7 @@
     footer { text-align: center; padding: 30px; color: var(--accent-light); }
     .rules-box { background: #fff9e6; border-left: 4px solid #ffa500; padding: 20px; margin: 20px 0; }
     
-    /* NEW: Feedback Section */
+    /* FEEDBACK SYSTEM */
     .feedback-button { background: var(--accent-light); color: white; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px; }
     .feedback-form { display: none; margin-top: 15px; }
     .feedback-form.active { display: block; }
@@ -80,60 +80,27 @@
     <!-- === SUBMIT === -->
     <section id="section-submit" class="section">
       <h2>Submit Your Story</h2>
-      <form action="https://formspree.io/f/YOUR_FORM_CODE" method="POST" onsubmit="return handleSubmit(event)">
-        <input type="text" name="title" placeholder="Story Title" required>
-        <select name="genre" required>
+      <!-- 🚨 NO EXTERNAL SERVICE NEEDED - Stories save to browser -->
+      <form onsubmit="handleStorySubmit(event)">
+        <input type="text" id="story-title" placeholder="Story Title" required>
+        <select id="story-genre" required>
           <option value="">Select Genre</option>
           <option value="fiction">Fiction</option>
           <option value="mystery">Mystery</option>
           <option value="romance">Romance</option>
+          <option value="scifi">Sci-Fi</option>
+          <option value="horror">Horror</option>
         </select>
-        <textarea name="story" placeholder="Your story (100+ words recommended)" rows="10" required></textarea>
-        <input type="hidden" name="username" id="submit-user">
+        <textarea id="story-content" placeholder="Your story (100+ words recommended)" rows="10" required></textarea>
         <button type="submit">Submit for Feedback</button>
         <p id="submit-error" class="error"></p>
       </form>
     </section>
 
-    <!-- === BROWSE (with Feedback Buttons) === -->
+    <!-- === BROWSE === -->
     <section id="section-browse" class="section">
-      <h2>Browse Community Stories</h2>
-      
-      <div class="story-card" data-story-id="clockmaker">
-        <h3>The Clockmaker's Secret</h3>
-        <div class="story-meta">Genre: Mystery | By: Sarah M.</div>
-        <p>The ticking echoed through the dusty shop. Old Man Hemlock hadn't wound the clocks in years, yet they all ran perfectly—synced to a heartbeat that wasn't human...</p>
-        
-        <!-- FEEDBACK BUTTON -->
-        <button class="feedback-button" onclick="toggleFeedback('clockmaker')">Leave Feedback</button>
-        
-        <!-- FEEDBACK FORM (hidden) -->
-        <div class="feedback-form" id="feedback-clockmaker">
-          <h4>Your Feedback:</h4>
-          <textarea id="comment-clockmaker" placeholder="What worked well? What could improve?" rows="5"></textarea>
-          <button type="button" onclick="submitFeedback('clockmaker')">Post Feedback</button>
-        </div>
-        
-        <!-- FEEDBACK LIST -->
-        <div class="feedback-list" id="list-clockmaker"></div>
-      </div>
-
-      <div class="story-card" data-story-id="borrower">
-        <h3>The Borrower</h3>
-        <div class="story-meta">Genre: Fiction | By: Alex T.</div>
-        <p>Elias kept the things people left behind. The silk scarf still smelled of perfume. When he found the red bicycle, its basket held a note: "If you're reading this, you need it more than I do."</p>
-        
-        <!-- FEEDBACK BUTTON -->
-        <button class="feedback-button" onclick="toggleFeedback('borrower')">Leave Feedback</button>
-        
-        <div class="feedback-form" id="feedback-borrower">
-          <h4>Your Feedback:</h4>
-          <textarea id="comment-borrower" placeholder="What worked well? What could improve?" rows="5"></textarea>
-          <button type="button" onclick="submitFeedback('borrower')">Post Feedback</button>
-        </div>
-        
-        <div class="feedback-list" id="list-borrower"></div>
-      </div>
+      <h2>Community Stories</h2>
+      <div id="stories-container"></div>
     </section>
 
     <!-- === PROFILE === -->
@@ -180,13 +147,13 @@
   </div>
 
   <script>
-    // === NAVIGATION (100% WORKS) ===
+    // === CORE NAVIGATION ===
     const buttons = {
       'btn-home': 'section-home',
       'btn-submit': 'section-submit',
       'btn-browse': 'section-browse',
       'btn-profile': 'section-profile',
-      'btn-auth': 'section-register' // Default to register
+      'btn-auth': 'section-register'
     };
 
     Object.entries(buttons).forEach(([btnId, sectionId]) => {
@@ -204,20 +171,7 @@
       document.getElementById(id).classList.add('active');
     }
 
-    // === SUBMIT ===
-    function handleSubmit(event) {
-      const user = localStorage.getItem('loggedInUser');
-      if (!user) {
-        document.getElementById('submit-error').textContent = 'Please sign up first!';
-        showSection('section-register');
-        event.preventDefault();
-        return false;
-      }
-      document.getElementById('submit-user').value = user;
-      return true; // Allow Formspree submission
-    }
-
-    // === REGISTER ===
+    // === AUTH SYSTEM ===
     function handleRegister(event) {
       event.preventDefault();
       const user = document.getElementById('reg-user').value;
@@ -236,12 +190,12 @@
       
       localStorage.setItem('user_' + user, JSON.stringify({ password: pass, joined: new Date().toLocaleDateString() }));
       localStorage.setItem('loggedInUser', user);
+      
       alert('Account created! Welcome, ' + user + '!');
       document.getElementById('btn-auth').textContent = 'Logout';
       showSection('section-home');
     }
 
-    // === LOGIN ===
     function handleLogin(event) {
       event.preventDefault();
       const user = document.getElementById('login-user').value;
@@ -265,7 +219,6 @@
       showSection('section-home');
     }
 
-    // === LOGOUT ===
     function handleLogout() {
       localStorage.removeItem('loggedInUser');
       document.getElementById('btn-auth').textContent = 'Sign Up';
@@ -273,7 +226,71 @@
       showSection('section-home');
     }
 
-    // === FEEDBACK SYSTEM (NEW!) ===
+    // === STORY SUBMISSION (NO FORMSPREE NEEDED) ===
+    function handleStorySubmit(event) {
+      event.preventDefault();
+      const user = localStorage.getItem('loggedInUser');
+      if (!user) {
+        document.getElementById('submit-error').textContent = 'Please sign up first!';
+        showSection('section-register');
+        return;
+      }
+      
+      const story = {
+        id: Date.now().toString(),
+        title: document.getElementById('story-title').value,
+        genre: document.getElementById('story-genre').value,
+        content: document.getElementById('story-content').value,
+        author: user,
+        timestamp: new Date().toLocaleString(),
+        feedback: []
+      };
+      
+      const stories = JSON.parse(localStorage.getItem('stories') || '[]');
+      stories.unshift(story);
+      localStorage.setItem('stories', JSON.stringify(stories));
+      
+      alert('Story submitted! It will appear in the gallery.');
+      document.getElementById('story-title').value = '';
+      document.getElementById('story-genre').value = '';
+      document.getElementById('story-content').value = '';
+      showSection('section-browse');
+      displayStories();
+    }
+
+    // === DISPLAY STORIES ===
+    function displayStories() {
+      const container = document.getElementById('stories-container');
+      const stories = JSON.parse(localStorage.getItem('stories') || '[]');
+      
+      if (stories.length === 0) {
+        container.innerHTML = '<p><em>No stories yet. Be the first to submit!</em></p>';
+        return;
+      }
+      
+      container.innerHTML = stories.map(story => `
+        <div class="story-card" data-story-id="${story.id}">
+          <h3>${story.title}</h3>
+          <div class="story-meta">Genre: ${story.genre} | By: ${story.author} | ${story.timestamp}</div>
+          <p>${story.content.substring(0, 200)}${story.content.length > 200 ? '...' : ''}</p>
+          
+          <!-- FEEDBACK BUTTON -->
+          <button class="feedback-button" onclick="toggleFeedback('${story.id}')">Leave Feedback</button>
+          
+          <div class="feedback-form" id="feedback-${story.id}">
+            <h4>Your Feedback:</h4>
+            <textarea id="comment-${story.id}" placeholder="What worked well? What could improve?" rows="5"></textarea>
+            <button type="button" onclick="submitFeedback('${story.id}')">Post Feedback</button>
+          </div>
+          
+          <div class="feedback-list" id="list-${story.id}"></div>
+        </div>
+      `).join('');
+      
+      stories.forEach(story => displayFeedback(story.id));
+    }
+
+    // === FEEDBACK SYSTEM ===
     function toggleFeedback(storyId) {
       document.getElementById('feedback-' + storyId).classList.toggle('active');
     }
@@ -286,48 +303,67 @@
       }
       
       const user = localStorage.getItem('loggedInUser') || 'Guest';
-      const key = 'feedback_' + storyId;
-      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      const stories = JSON.parse(localStorage.getItem('stories') || '[]');
+      const story = stories.find(s => s.id === storyId);
       
-      existing.push({
-        author: user,
-        comment: comment,
-        timestamp: new Date().toLocaleString()
-      });
-      
-      localStorage.setItem(key, JSON.stringify(existing));
+      if (story) {
+        story.feedback.push({
+          author: user,
+          comment: comment,
+          timestamp: new Date().toLocaleString()
+        });
+        localStorage.setItem('stories', JSON.stringify(stories));
+      }
       
       document.getElementById('comment-' + storyId).value = '';
       document.getElementById('feedback-' + storyId).classList.remove('active');
-      
       alert('Feedback posted! Thank you!');
       displayFeedback(storyId);
     }
 
     function displayFeedback(storyId) {
-      const key = 'feedback_' + storyId;
-      const feedbacks = JSON.parse(localStorage.getItem(key) || '[]');
+      const stories = JSON.parse(localStorage.getItem('stories') || '[]');
+      const story = stories.find(s => s.id === storyId);
       const container = document.getElementById('list-' + storyId);
       
-      container.innerHTML = feedbacks.length ? '<h4>Feedback:</h4>' : '';
-      feedbacks.forEach(f => {
-        const div = document.createElement('div');
-        div.className = 'feedback-item';
-        div.innerHTML = `<span class="feedback-author">${f.author}:</span> ${f.comment}<br><small>${f.timestamp}</small>`;
-        container.appendChild(div);
-      });
+      if (!story || !story.feedback.length) {
+        container.innerHTML = '';
+        return;
+      }
+      
+      container.innerHTML = '<h4>Feedback:</h4>' + story.feedback.map(f => `
+        <div class="feedback-item">
+          <span class="feedback-author">${f.author}:</span> ${f.comment}<br><small>${f.timestamp}</small>
+        </div>
+      `).join('');
+    }
+
+    // === PROFILE DISPLAY ===
+    function updateProfile() {
+      const user = localStorage.getItem('loggedInUser');
+      const content = document.getElementById('profile-content');
+      
+      if (user) {
+        const data = JSON.parse(localStorage.getItem('user_' + user) || '{}');
+        const stories = JSON.parse(localStorage.getItem('stories') || '[]');
+        const myStories = stories.filter(s => s.author === user);
+        
+        content.innerHTML = `
+          <h3>Hello, ${user}!</h3>
+          <p><strong>Member since:</strong> ${data.joined || 'Today'}</p>
+          <p><strong>Stories submitted:</strong> ${myStories.length}</p>
+          <button onclick="handleLogout()">Logout</button>
+        `;
+      } else {
+        content.innerHTML = `<p><span class="link-button" onclick="showSection('section-register')">Create an account</span> to track your activity.</p>`;
+      }
     }
 
     // === INITIALIZE ===
     document.addEventListener('DOMContentLoaded', () => {
-      ['clockmaker', 'borrower'].forEach(id => displayFeedback(id));
+      displayStories();
+      updateProfile();
     });
   </script>
 </body>
 </html>
-https://formspree.io/f/
-│
-└── abc123def456 ← COPY THIS PART
-
-
-
