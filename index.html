@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sanestory</title>
+  <title>Sanestory - Writing Community</title>
   <style>
     :root {
       --bg-primary: #f5f3f0;
@@ -12,41 +12,53 @@
       --accent: #5c3a21;
       --accent-light: #8c6d5f;
       --border: #ddd;
+      --shadow: rgba(0,0,0,0.1);
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
-    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-    header { background: var(--accent); color: white; padding: 20px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    nav { display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 0 auto; padding: 0 20px; }
-    .logo { font-size: 2em; font-weight: bold; }
-    .nav-links button { background: var(--accent-light); color: white; border: none; padding: 8px 15px; margin-left: 5px; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
-    .nav-links button:hover { background: var(--accent); }
-    main { background: var(--bg-secondary); margin: 30px 0; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    header { background: var(--accent); color: white; padding: 20px 0; box-shadow: 0 4px 6px var(--shadow); position: sticky; top: 0; z-index: 100; }
+    nav { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+    .logo { font-size: 2em; font-weight: bold; letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 10px; }
+    .nav-links button { background: var(--accent-light); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; transition: all 0.3s; font-size: 14px; }
+    .nav-links button:hover { background: var(--accent); transform: translateY(-2px); }
+    main { background: var(--bg-secondary); margin: 30px 0; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); }
     h2 { color: var(--accent); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--accent-light); }
-    form { background: var(--bg-primary); padding: 25px; border-radius: 6px; }
-    input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--border); border-radius: 4px; font-size: 16px; }
-    button[type="submit"] { background: var(--accent); color: white; padding: 12px 30px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    form { background: var(--bg-primary); padding: 25px; border-radius: 6px; border: 1px solid var(--border); }
+    input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid var(--border); border-radius: 4px; font-size: 16px; background: var(--bg-secondary); color: var(--text-primary); transition: border 0.3s; }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+    button[type="submit"] { background: var(--accent); color: white; padding: 12px 30px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background 0.3s; font-weight: bold; }
     button[type="submit"]:hover { background: var(--accent-light); }
-    .section { display: none; }
+    .section { display: none; animation: fadeIn 0.4s; }
     .section.active { display: block; }
-    .story-card { background: var(--bg-primary); border-left: 5px solid var(--accent-light); padding: 20px; margin: 20px 0; border-radius: 4px; }
-    .story-card h3 { color: var(--accent); margin-bottom: 10px; }
-    .story-meta { font-size: 0.9em; color: var(--accent-light); margin-bottom: 15px; }
-    .auth-form { max-width: 400px; margin: 30px auto; background: var(--bg-secondary); padding: 25px; border-radius: 8px; }
-    .error { color: #ff4444; margin-top: 10px; }
-    .success { color: #44ff44; margin-top: 10px; }
-    footer { text-align: center; padding: 30px; color: var(--accent-light); }
-    .rules-box { background: #fff9e6; border-left: 4px solid #ffa500; padding: 20px; margin: 20px 0; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .story-card { background: var(--bg-primary); border-left: 5px solid var(--accent-light); padding: 20px; margin: 20px 0; border-radius: 4px; transition: transform 0.2s, box-shadow 0.2s; }
+    .story-card:hover { transform: translateX(5px); box-shadow: 0 4px 12px var(--shadow); }
+    .story-card h3 { color: var(--accent); margin-bottom: 10px; font-size: 1.4em; }
+    .story-meta { font-size: 0.9em; color: var(--accent-light); margin-bottom: 15px; font-style: italic; }
+    .auth-form { max-width: 400px; margin: 30px auto; background: var(--bg-secondary); padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
+    .error { color: #d32f2f; margin-top: 10px; font-weight: bold; }
+    .success { color: #388e3c; margin-top: 10px; font-weight: bold; }
+    footer { text-align: center; padding: 30px; color: var(--accent-light); border-top: 1px solid var(--border); margin-top: 40px; }
+    .rules-box { background: #fff9e6; border-left: 4px solid #ffa500; padding: 20px; margin: 20px 0; border-radius: 4px; }
+    .rules-box h3 { color: var(--accent); margin-bottom: 15px; }
+    .rules-box ul { list-style-position: inside; }
+    .link-button { color: var(--accent); text-decoration: underline; cursor: pointer; font-weight: bold; }
+    .link-button:hover { color: var(--accent-light); }
     
     /* FEEDBACK SYSTEM */
-    .feedback-button { background: var(--accent-light); color: white; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px; }
-    .feedback-form { display: none; margin-top: 15px; }
-    .feedback-form.active { display: block; }
+    .feedback-button { background: var(--accent-light); color: white; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px; transition: background 0.3s; }
+    .feedback-button:hover { background: var(--accent); }
+    .feedback-form { display: none; margin-top: 15px; padding: 15px; background: var(--bg-secondary); border-radius: 4px; border: 1px solid var(--border); }
+    .feedback-form.active { display: block; animation: fadeIn 0.3s; }
     .feedback-list { margin-top: 15px; }
-    .feedback-item { background: var(--bg-secondary); padding: 10px; margin: 10px 0; border-radius: 4px; border-left: 3px solid var(--accent); }
+    .feedback-item { background: var(--bg-secondary); padding: 12px; margin: 10px 0; border-radius: 4px; border-left: 4px solid var(--accent); box-shadow: 0 1px 3px var(--shadow); }
     .feedback-author { font-weight: bold; color: var(--accent); }
-    .link-button { color: var(--accent); text-decoration: underline; cursor: pointer; }
+    .download-btn { background: #4caf50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin: 10px 0; }
+    .download-btn:hover { background: #388e3c; }
+    .debug-info { background: #ffebee; border: 1px solid #ef5350; padding: 10px; border-radius: 4px; margin: 10px 0; font-family: monospace; }
   </style>
 </head>
 <body>
@@ -67,20 +79,27 @@
     <!-- === HOME === -->
     <section id="section-home" class="section active">
       <h2>Welcome to Sanestory</h2>
+      <p>A peer-driven writing community where writers share stories and give constructive feedback. No email required—everything runs in your browser.</p>
+      
       <div class="rules-box">
         <h3>How It Works:</h3>
         <ul>
-          <li>✍️ Submit your original story</li>
-          <li>💬 Give feedback on 2 stories for every 1 you submit</li>
-          <li>🤝 Be specific and kind in your critiques</li>
+          <li>✍️ <strong>Submit</strong> your original story (100+ words recommended)</li>
+          <li>💬 <strong>Give feedback</strong> on 2 stories for every 1 you submit</li>
+          <li>🤝 <strong>Be specific</strong> and kind in your critiques</li>
+          <li>💾 <strong>All data saves</strong> automatically to your browser</li>
         </ul>
+      </div>
+      
+      <div style="margin-top: 20px;">
+        <button class="download-btn" onclick="downloadData()">📥 Download My Data (Backup)</button>
+        <button class="download-btn" onclick="clearAllData()" style="background: #d32f2f;">🗑️ Clear All Data (Reset)</button>
       </div>
     </section>
 
     <!-- === SUBMIT === -->
     <section id="section-submit" class="section">
       <h2>Submit Your Story</h2>
-      <!-- 🚨 NO EXTERNAL SERVICE NEEDED - Stories save to browser -->
       <form onsubmit="handleStorySubmit(event)">
         <input type="text" id="story-title" placeholder="Story Title" required>
         <select id="story-genre" required>
@@ -90,6 +109,7 @@
           <option value="romance">Romance</option>
           <option value="scifi">Sci-Fi</option>
           <option value="horror">Horror</option>
+          <option value="poetry">Poetry</option>
         </select>
         <textarea id="story-content" placeholder="Your story (100+ words recommended)" rows="10" required></textarea>
         <button type="submit">Submit for Feedback</button>
@@ -99,7 +119,7 @@
 
     <!-- === BROWSE === -->
     <section id="section-browse" class="section">
-      <h2>Community Stories</h2>
+      <h2>Community Stories & Feedback</h2>
       <div id="stories-container"></div>
     </section>
 
@@ -147,6 +167,15 @@
   </div>
 
   <script>
+    // === DEBUG INFO (Shows if something breaks) ===
+    function showDebug(message) {
+      const debug = document.createElement('div');
+      debug.className = 'debug-info';
+      debug.textContent = 'DEBUG: ' + message;
+      document.querySelector('.container').prepend(debug);
+      setTimeout(() => debug.remove(), 5000);
+    }
+
     // === CORE NAVIGATION ===
     const buttons = {
       'btn-home': 'section-home',
@@ -157,26 +186,42 @@
     };
 
     Object.entries(buttons).forEach(([btnId, sectionId]) => {
-      document.getElementById(btnId).addEventListener('click', () => {
-        if (btnId === 'btn-auth' && document.getElementById('btn-auth').textContent === 'Logout') {
-          handleLogout();
-        } else {
-          showSection(sectionId);
-        }
-      });
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        btn.addEventListener('click', () => {
+          if (btnId === 'btn-auth' && btn.textContent === 'Logout') {
+            handleLogout();
+          } else {
+            showSection(sectionId);
+          }
+        });
+      } else {
+        showDebug(`Button ${btnId} not found`);
+      }
     });
 
     function showSection(id) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo(0, 0);
+      } else {
+        showDebug(`Section ${id} not found`);
+      }
     }
 
     // === AUTH SYSTEM ===
     function handleRegister(event) {
       event.preventDefault();
-      const user = document.getElementById('reg-user').value;
+      const user = document.getElementById('reg-user').value.trim();
       const pass = document.getElementById('reg-pass').value;
       const confirm = document.getElementById('reg-confirm').value;
+      
+      if (!user || !pass || !confirm) {
+        document.getElementById('reg-error').textContent = 'All fields required!';
+        return;
+      }
       
       if (pass !== confirm) {
         document.getElementById('reg-error').textContent = 'Passwords do not match!';
@@ -191,17 +236,27 @@
       localStorage.setItem('user_' + user, JSON.stringify({ password: pass, joined: new Date().toLocaleDateString() }));
       localStorage.setItem('loggedInUser', user);
       
-      alert('Account created! Welcome, ' + user + '!');
+      document.getElementById('reg-success').textContent = 'Account created!';
       document.getElementById('btn-auth').textContent = 'Logout';
-      showSection('section-home');
+      
+      setTimeout(() => {
+        showSection('section-home');
+        updateProfile();
+        document.getElementById('reg-success').textContent = '';
+      }, 1500);
     }
 
     function handleLogin(event) {
       event.preventDefault();
-      const user = document.getElementById('login-user').value;
+      const user = document.getElementById('login-user').value.trim();
       const pass = document.getElementById('login-pass').value;
-      const stored = localStorage.getItem('user_' + user);
       
+      if (!user || !pass) {
+        document.getElementById('login-error').textContent = 'All fields required!';
+        return;
+      }
+      
+      const stored = localStorage.getItem('user_' + user);
       if (!stored) {
         document.getElementById('login-error').textContent = 'Username not found!';
         return;
@@ -214,33 +269,50 @@
       }
       
       localStorage.setItem('loggedInUser', user);
-      alert('Welcome back, ' + user + '!');
       document.getElementById('btn-auth').textContent = 'Logout';
+      alert('Welcome back, ' + user + '!');
       showSection('section-home');
+      updateProfile();
     }
 
     function handleLogout() {
       localStorage.removeItem('loggedInUser');
       document.getElementById('btn-auth').textContent = 'Sign Up';
-      alert('Logged out!');
+      alert('Logged out successfully!');
       showSection('section-home');
+      updateProfile();
     }
 
-    // === STORY SUBMISSION (NO FORMSPREE NEEDED) ===
+    // === STORY SUBMISSION ===
     function handleStorySubmit(event) {
       event.preventDefault();
       const user = localStorage.getItem('loggedInUser');
+      
       if (!user) {
         document.getElementById('submit-error').textContent = 'Please sign up first!';
         showSection('section-register');
         return;
       }
       
+      const title = document.getElementById('story-title').value.trim();
+      const genre = document.getElementById('story-genre').value;
+      const content = document.getElementById('story-content').value.trim();
+      
+      if (!title || !genre || !content) {
+        document.getElementById('submit-error').textContent = 'All fields required!';
+        return;
+      }
+      
+      if (content.length < 50) {
+        document.getElementById('submit-error').textContent = 'Story too short! Minimum 50 characters.';
+        return;
+      }
+      
       const story = {
         id: Date.now().toString(),
-        title: document.getElementById('story-title').value,
-        genre: document.getElementById('story-genre').value,
-        content: document.getElementById('story-content').value,
+        title: title,
+        genre: genre,
+        content: content,
         author: user,
         timestamp: new Date().toLocaleString(),
         feedback: []
@@ -250,10 +322,12 @@
       stories.unshift(story);
       localStorage.setItem('stories', JSON.stringify(stories));
       
-      alert('Story submitted! It will appear in the gallery.');
+      alert('Story submitted successfully!');
       document.getElementById('story-title').value = '';
       document.getElementById('story-genre').value = '';
       document.getElementById('story-content').value = '';
+      document.getElementById('submit-error').textContent = '';
+      
       showSection('section-browse');
       displayStories();
     }
@@ -264,7 +338,7 @@
       const stories = JSON.parse(localStorage.getItem('stories') || '[]');
       
       if (stories.length === 0) {
-        container.innerHTML = '<p><em>No stories yet. Be the first to submit!</em></p>';
+        container.innerHTML = '<div class="story-card"><h3>No stories yet!</h3><p>Be the first to <span class="link-button" onclick="showSection(\'section-submit\')">submit a story</span>.</p></div>';
         return;
       }
       
@@ -272,9 +346,8 @@
         <div class="story-card" data-story-id="${story.id}">
           <h3>${story.title}</h3>
           <div class="story-meta">Genre: ${story.genre} | By: ${story.author} | ${story.timestamp}</div>
-          <p>${story.content.substring(0, 200)}${story.content.length > 200 ? '...' : ''}</p>
+          <p>${story.content}</p>
           
-          <!-- FEEDBACK BUTTON -->
           <button class="feedback-button" onclick="toggleFeedback('${story.id}')">Leave Feedback</button>
           
           <div class="feedback-form" id="feedback-${story.id}">
@@ -292,12 +365,16 @@
 
     // === FEEDBACK SYSTEM ===
     function toggleFeedback(storyId) {
-      document.getElementById('feedback-' + storyId).classList.toggle('active');
+      const form = document.getElementById('feedback-' + storyId);
+      form.classList.toggle('active');
+      if (form.classList.contains('active')) {
+        document.getElementById('comment-' + storyId).focus();
+      }
     }
 
     function submitFeedback(storyId) {
-      const comment = document.getElementById('comment-' + storyId).value;
-      if (!comment.trim()) {
+      const comment = document.getElementById('comment-' + storyId).value.trim();
+      if (!comment) {
         alert('Please write some feedback!');
         return;
       }
@@ -331,14 +408,15 @@
         return;
       }
       
-      container.innerHTML = '<h4>Feedback:</h4>' + story.feedback.map(f => `
-        <div class="feedback-item">
-          <span class="feedback-author">${f.author}:</span> ${f.comment}<br><small>${f.timestamp}</small>
-        </div>
-      `).join('');
+      container.innerHTML = '<h4 style="color: var(--accent); margin: 15px 0 10px 0;">Feedback:</h4>' + 
+        story.feedback.map(f => `
+          <div class="feedback-item">
+            <span class="feedback-author">${f.author}:</span> ${f.comment}<br><small style="color: var(--accent-light);">${f.timestamp}</small>
+          </div>
+        `).join('');
     }
 
-    // === PROFILE DISPLAY ===
+    // === PROFILE ===
     function updateProfile() {
       const user = localStorage.getItem('loggedInUser');
       const content = document.getElementById('profile-content');
@@ -347,23 +425,89 @@
         const data = JSON.parse(localStorage.getItem('user_' + user) || '{}');
         const stories = JSON.parse(localStorage.getItem('stories') || '[]');
         const myStories = stories.filter(s => s.author === user);
+        const myFeedback = stories.reduce((total, s) => total + (s.feedback?.filter(f => f.author === user).length || 0), 0);
         
         content.innerHTML = `
           <h3>Hello, ${user}!</h3>
           <p><strong>Member since:</strong> ${data.joined || 'Today'}</p>
           <p><strong>Stories submitted:</strong> ${myStories.length}</p>
-          <button onclick="handleLogout()">Logout</button>
+          <p><strong>Feedback given:</strong> ${myFeedback}</p>
+          <div style="margin-top: 20px;">
+            <button class="download-btn" onclick="handleLogout()">Logout</button>
+          </div>
         `;
       } else {
         content.innerHTML = `<p><span class="link-button" onclick="showSection('section-register')">Create an account</span> to track your activity.</p>`;
       }
     }
 
+    // === DATA MANAGEMENT ===
+    function downloadData() {
+      const data = {
+        user: localStorage.getItem('loggedInUser'),
+        users: Object.keys(localStorage).filter(k => k.startsWith('user_')).map(k => ({ username: k.replace('user_', ''), data: JSON.parse(localStorage.getItem(k)) })),
+        stories: JSON.parse(localStorage.getItem('stories') || '[]')
+      };
+      
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'sanestory-backup-' + new Date().toISOString().split('T')[0] + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function clearAllData() {
+      if (confirm('⚠️ WARNING: This will delete ALL stories, feedback, and user data. Are you sure?')) {
+        localStorage.clear();
+        alert('All data cleared!');
+        location.reload();
+      }
+    }
+
     // === INITIALIZE ===
-    document.addEventListener('DOMContentLoaded', () => {
-      displayStories();
+    try {
+      // Check if localStorage works
+      localStorage.setItem('sanestory-test', '1');
+      localStorage.removeItem('sanestory-test');
+      
+      // Load initial content
       updateProfile();
-    });
+      displayStories();
+      
+      // Add sample stories if empty
+      const stories = JSON.parse(localStorage.getItem('stories') || '[]');
+      if (stories.length === 0) {
+        const sampleStories = [
+          {
+            id: 'sample-1',
+            title: 'The Clockmaker\'s Secret',
+            genre: 'Mystery',
+            content: 'The ticking echoed through the dusty shop. Old Man Hemlock hadn\'t wound the clocks in years, yet they all ran perfectly—synced to a heartbeat that wasn\'t human. Inside the grandfather clock, I found a photograph of a woman who looked exactly like me, dated 1923.',
+            author: 'Sample_User',
+            timestamp: new Date(Date.now() - 86400000).toLocaleString(),
+            feedback: [
+              { author: 'Reader1', comment: 'Loved the atmosphere! The ending was chilling.', timestamp: new Date(Date.now() - 43200000).toLocaleString() }
+            ]
+          },
+          {
+            id: 'sample-2',
+            title: 'The Borrower',
+            genre: 'Fiction',
+            content: 'Elias kept the things people left behind. The silk scarf from March 12th still smelled of perfume. The leather wallet held a ticket stub to a play that closed years ago. When he found the red bicycle, its basket held a note: "If you\'re reading this, you need it more than I do."',
+            author: 'Sample_User',
+            timestamp: new Date(Date.now() - 172800000).toLocaleString(),
+            feedback: []
+          }
+        ];
+        localStorage.setItem('stories', JSON.stringify(sampleStories));
+        displayStories();
+      }
+    } catch (e) {
+      showDebug('localStorage error: ' + e.message);
+      document.body.innerHTML = '<div style="padding: 20px; color: red;"><h1>Error: Browser storage not available</h1><p>Please enable cookies/localStorage or try a different browser.</p></div>';
+    }
   </script>
 </body>
 </html>
