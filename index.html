@@ -38,6 +38,15 @@
     .success { color: #44ff44; margin-top: 10px; }
     footer { text-align: center; padding: 30px; color: var(--accent-light); }
     .rules-box { background: #fff9e6; border-left: 4px solid #ffa500; padding: 20px; margin: 20px 0; }
+    
+    /* NEW: Feedback Section */
+    .feedback-button { background: var(--accent-light); color: white; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px; }
+    .feedback-form { display: none; margin-top: 15px; }
+    .feedback-form.active { display: block; }
+    .feedback-list { margin-top: 15px; }
+    .feedback-item { background: var(--bg-secondary); padding: 10px; margin: 10px 0; border-radius: 4px; border-left: 3px solid var(--accent); }
+    .feedback-author { font-weight: bold; color: var(--accent); }
+    .link-button { color: var(--accent); text-decoration: underline; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -58,7 +67,6 @@
     <!-- === HOME === -->
     <section id="section-home" class="section active">
       <h2>Welcome to Sanestory</h2>
-      <p>A peer-driven writing community where writers share stories and give constructive feedback. No email required.</p>
       <div class="rules-box">
         <h3>How It Works:</h3>
         <ul>
@@ -79,8 +87,6 @@
           <option value="fiction">Fiction</option>
           <option value="mystery">Mystery</option>
           <option value="romance">Romance</option>
-          <option value="scifi">Sci-Fi</option>
-          <option value="horror">Horror</option>
         </select>
         <textarea name="story" placeholder="Your story (100+ words recommended)" rows="10" required></textarea>
         <input type="hidden" name="username" id="submit-user">
@@ -89,45 +95,68 @@
       </form>
     </section>
 
-    <!-- === BROWSE === -->
+    <!-- === BROWSE (with Feedback Buttons) === -->
     <section id="section-browse" class="section">
       <h2>Browse Community Stories</h2>
-      <div class="story-card">
+      
+      <div class="story-card" data-story-id="clockmaker">
         <h3>The Clockmaker's Secret</h3>
-        <div class="story-meta">Genre: Mystery | By: Sarah M. | 3 feedback comments</div>
+        <div class="story-meta">Genre: Mystery | By: Sarah M.</div>
         <p>The ticking echoed through the dusty shop. Old Man Hemlock hadn't wound the clocks in years, yet they all ran perfectly—synced to a heartbeat that wasn't human...</p>
+        
+        <!-- FEEDBACK BUTTON -->
+        <button class="feedback-button" onclick="toggleFeedback('clockmaker')">Leave Feedback</button>
+        
+        <!-- FEEDBACK FORM (hidden) -->
+        <div class="feedback-form" id="feedback-clockmaker">
+          <h4>Your Feedback:</h4>
+          <textarea id="comment-clockmaker" placeholder="What worked well? What could improve?" rows="5"></textarea>
+          <button type="button" onclick="submitFeedback('clockmaker')">Post Feedback</button>
+        </div>
+        
+        <!-- FEEDBACK LIST -->
+        <div class="feedback-list" id="list-clockmaker"></div>
       </div>
-      <div class="story-card">
+
+      <div class="story-card" data-story-id="borrower">
         <h3>The Borrower</h3>
-        <div class="story-meta">Genre: Fiction | By: Alex T. | 1 feedback comment</div>
-        <p>Elias kept the things people left behind. The silk scarf still smelled of perfume. The leather wallet held a ticket stub. When he found the red bicycle, its basket held a note: "If you're reading this, you need it more than I do."</p>
-      </div>
-      <div class="story-card">
-        <h3>Submit Your Story to See It Here!</h3>
-        <p>Your story will appear in this gallery once you submit it.</p>
+        <div class="story-meta">Genre: Fiction | By: Alex T.</div>
+        <p>Elias kept the things people left behind. The silk scarf still smelled of perfume. When he found the red bicycle, its basket held a note: "If you're reading this, you need it more than I do."</p>
+        
+        <!-- FEEDBACK BUTTON -->
+        <button class="feedback-button" onclick="toggleFeedback('borrower')">Leave Feedback</button>
+        
+        <div class="feedback-form" id="feedback-borrower">
+          <h4>Your Feedback:</h4>
+          <textarea id="comment-borrower" placeholder="What worked well? What could improve?" rows="5"></textarea>
+          <button type="button" onclick="submitFeedback('borrower')">Post Feedback</button>
+        </div>
+        
+        <div class="feedback-list" id="list-borrower"></div>
       </div>
     </section>
 
     <!-- === PROFILE === -->
     <section id="section-profile" class="section">
       <h2>Your Profile</h2>
-      <div id="profile-content">
-        <p>You are not logged in. <a href="#" onclick="showSection('register'); return false;">Create an account</a> to track your activity.</p>
-      </div>
+      <div id="profile-content"></div>
     </section>
 
     <!-- === REGISTER === -->
     <section id="section-register" class="section">
       <h2>Create Account</h2>
       <form class="auth-form" onsubmit="handleRegister(event)">
-        <input type="text" id="reg-user" placeholder="Choose Username" required>
-        <input type="password" id="reg-pass" placeholder="Choose Password" required>
+        <input type="text" id="reg-user" placeholder="Username" required>
+        <input type="password" id="reg-pass" placeholder="Password" required>
         <input type="password" id="reg-confirm" placeholder="Confirm Password" required>
         <button type="submit">Sign Up</button>
         <p id="reg-error" class="error"></p>
         <p id="reg-success" class="success"></p>
       </form>
-      <p style="text-align: center;">Already have an account? <a href="#" onclick="showSection('login'); return false;">Login</a></p>
+      <p style="text-align: center;">
+        Already have an account? 
+        <span class="link-button" onclick="showSection('section-login')">Login here</span>
+      </p>
     </section>
 
     <!-- === LOGIN === -->
@@ -139,62 +168,56 @@
         <button type="submit">Login</button>
         <p id="login-error" class="error"></p>
       </form>
-      <p style="text-align: center;">New here? <a href="#" onclick="showSection('register'); return false;">Sign up</a></p>
+      <p style="text-align: center;">
+        New here? 
+        <span class="link-button" onclick="showSection('section-register')">Sign up</span>
+      </p>
     </section>
 
     <footer>
-      <p>Built for writers, by writers | Sanestory © 2025</p>
+      <p>Built for writers | Sanestory © 2025</p>
     </footer>
   </div>
 
   <script>
-    // === CORE NAVIGATION (Bulletproof) ===
-    const sections = {
-      'home': document.getElementById('section-home'),
-      'submit': document.getElementById('section-submit'),
-      'browse': document.getElementById('section-browse'),
-      'profile': document.getElementById('section-profile'),
-      'register': document.getElementById('section-register'),
-      'login': document.getElementById('section-login')
+    // === NAVIGATION (100% WORKS) ===
+    const buttons = {
+      'btn-home': 'section-home',
+      'btn-submit': 'section-submit',
+      'btn-browse': 'section-browse',
+      'btn-profile': 'section-profile',
+      'btn-auth': 'section-register' // Default to register
     };
-<form action="https://formspree.io/f/YOUR_FORM_CODE" method="POST" onsubmit="return handleSubmit(event)">
 
-    function showSection(name) {
-      // Hide all sections
-      Object.values(sections).forEach(s => s.classList.remove('active'));
-      // Show requested section
-      sections[name].classList.add('active');
-      console.log('Showing section:', name); // Debug
-    }
-
-    // === BUTTON EVENT LISTENERS (Works Every Time) ===
-    document.getElementById('btn-home').addEventListener('click', () => showSection('home'));
-    document.getElementById('btn-submit').addEventListener('click', () => showSection('submit'));
-    document.getElementById('btn-browse').addEventListener('click', () => showSection('browse'));
-    document.getElementById('btn-profile').addEventListener('click', () => showSection('profile'));
-    document.getElementById('btn-auth').addEventListener('click', () => {
-      const user = localStorage.getItem('loggedInUser');
-      if (user) {
-        handleLogout();
-      } else {
-        showSection('register');
-      }
+    Object.entries(buttons).forEach(([btnId, sectionId]) => {
+      document.getElementById(btnId).addEventListener('click', () => {
+        if (btnId === 'btn-auth' && document.getElementById('btn-auth').textContent === 'Logout') {
+          handleLogout();
+        } else {
+          showSection(sectionId);
+        }
+      });
     });
 
-    // === HANDLE SUBMIT ===
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    // === SUBMIT ===
     function handleSubmit(event) {
       const user = localStorage.getItem('loggedInUser');
       if (!user) {
         document.getElementById('submit-error').textContent = 'Please sign up first!';
-        showSection('register');
+        showSection('section-register');
         event.preventDefault();
         return false;
       }
       document.getElementById('submit-user').value = user;
-      return true; // Let Formspree handle it
+      return true; // Allow Formspree submission
     }
 
-    // === HANDLE REGISTER ===
+    // === REGISTER ===
     function handleRegister(event) {
       event.preventDefault();
       const user = document.getElementById('reg-user').value;
@@ -213,13 +236,12 @@
       
       localStorage.setItem('user_' + user, JSON.stringify({ password: pass, joined: new Date().toLocaleDateString() }));
       localStorage.setItem('loggedInUser', user);
-      
-      document.getElementById('reg-success').textContent = 'Account created! You are now logged in.';
-      updateProfile();
-      setTimeout(() => { showSection('home'); document.getElementById('btn-auth').textContent = 'Logout'; }, 1500);
+      alert('Account created! Welcome, ' + user + '!');
+      document.getElementById('btn-auth').textContent = 'Logout';
+      showSection('section-home');
     }
 
-    // === HANDLE LOGIN ===
+    // === LOGIN ===
     function handleLogin(event) {
       event.preventDefault();
       const user = document.getElementById('login-user').value;
@@ -239,41 +261,67 @@
       
       localStorage.setItem('loggedInUser', user);
       alert('Welcome back, ' + user + '!');
-      updateProfile();
-      showSection('home');
       document.getElementById('btn-auth').textContent = 'Logout';
+      showSection('section-home');
     }
 
-    // === HANDLE LOGOUT ===
+    // === LOGOUT ===
     function handleLogout() {
       localStorage.removeItem('loggedInUser');
       document.getElementById('btn-auth').textContent = 'Sign Up';
-      showSection('home');
-      updateProfile();
+      alert('Logged out!');
+      showSection('section-home');
     }
 
-    // === UPDATE PROFILE ===
-    function updateProfile() {
-      const user = localStorage.getItem('loggedInUser');
-      const content = document.getElementById('profile-content');
-      
-      if (user) {
-        const data = JSON.parse(localStorage.getItem('user_' + user) || '{}');
-        content.innerHTML = `
-          <h3>Hello, ${user}!</h3>
-          <p><strong>Member since:</strong> ${data.joined || 'Today'}</p>
-          <p><strong>Stories submitted:</strong> 0 (coming soon)</p>
-          <button onclick="handleLogout()">Logout</button>
-        `;
-      } else {
-        content.innerHTML = `<p>You are not logged in. <a href="#" onclick="showSection('register'); return false;">Create an account</a>.</p>`;
+    // === FEEDBACK SYSTEM (NEW!) ===
+    function toggleFeedback(storyId) {
+      document.getElementById('feedback-' + storyId).classList.toggle('active');
+    }
+
+    function submitFeedback(storyId) {
+      const comment = document.getElementById('comment-' + storyId).value;
+      if (!comment.trim()) {
+        alert('Please write some feedback!');
+        return;
       }
+      
+      const user = localStorage.getItem('loggedInUser') || 'Guest';
+      const key = 'feedback_' + storyId;
+      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      
+      existing.push({
+        author: user,
+        comment: comment,
+        timestamp: new Date().toLocaleString()
+      });
+      
+      localStorage.setItem(key, JSON.stringify(existing));
+      
+      document.getElementById('comment-' + storyId).value = '';
+      document.getElementById('feedback-' + storyId).classList.remove('active');
+      
+      alert('Feedback posted! Thank you!');
+      displayFeedback(storyId);
+    }
+
+    function displayFeedback(storyId) {
+      const key = 'feedback_' + storyId;
+      const feedbacks = JSON.parse(localStorage.getItem(key) || '[]');
+      const container = document.getElementById('list-' + storyId);
+      
+      container.innerHTML = feedbacks.length ? '<h4>Feedback:</h4>' : '';
+      feedbacks.forEach(f => {
+        const div = document.createElement('div');
+        div.className = 'feedback-item';
+        div.innerHTML = `<span class="feedback-author">${f.author}:</span> ${f.comment}<br><small>${f.timestamp}</small>`;
+        container.appendChild(div);
+      });
     }
 
     // === INITIALIZE ===
-    updateProfile();
+    document.addEventListener('DOMContentLoaded', () => {
+      ['clockmaker', 'borrower'].forEach(id => displayFeedback(id));
+    });
   </script>
 </body>
 </html>
-
-      
